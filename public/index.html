@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload and URL Shortener Example</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <h1 class="text-center" id="title">Loading...</h1> <!-- Dynamic title -->
+                    <div id="allowedTypes" class="text-center mb-3"></div>
+                    <form action="/upload" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="file">Choose a file:</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="file" name="file">
+                                <label class="custom-file-label" for="file">Select file</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-upload"></i> Upload
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="form-group mt-4">
+                        <form action="/shorten" method="post">
+                            <label for="url">Shorten URL:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="url" name="url" placeholder="Enter a URL to shorten">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Shorten</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        Made with ❤️ by david1117dev
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Fetch and display data from config.json
+        fetch('/config.json')
+            .then(response => response.json())
+            .then(data => {
+                const { title, uploadAllowedTypes } = data;
+                document.getElementById('title').textContent = title;
+                const allowedTypes = uploadAllowedTypes && uploadAllowedTypes.length > 0
+                    ? `Allowed file types: ${uploadAllowedTypes.join(', ')}`
+                    : 'No specific file types allowed.';
+                document.getElementById('allowedTypes').textContent = allowedTypes;
+            })
+            .catch(error => console.error('Error fetching config.json:', error));
+
+        const fileInput = document.getElementById('file');
+        const fileLabel = document.querySelector('.custom-file-label');
+
+        fileInput.addEventListener('change', function () {
+            if (fileInput.files.length > 0) {
+                fileLabel.textContent = fileInput.files[0].name;
+            } else {
+                fileLabel.textContent = 'Select file';
+            }
+        });
+    </script>
+</body>
+</html>

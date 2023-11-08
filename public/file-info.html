@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Information</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            padding: 20px;
+            border-radius: 10px; /* Add rounded corners */
+        }
+
+        .info-item {
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card">
+            <h1 class="text-center">File Information</h1>
+            <div class="info-item">
+                <i class="fas fa-file"></i> <strong>File Name:</strong>
+                <span id="fileName"></span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-file-size"></i> <strong>File Size:</strong>
+                <span id="fileSize"></span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-file-alt"></i> <strong>File Type:</strong>
+                <span id="fileType"></span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-link"></i> <strong>File Link:</strong>
+                <a id="fileLink" href="#" target="_blank">View File</a>
+                <i class="far fa-copy" id="copyLink" style="cursor: pointer; margin-left: 5px;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Made with ❤️ by david1117dev
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const fileName = urlParams.get('fileName');
+            const fileSizeInBytes = parseInt(urlParams.get('fileSize'));
+            const fileType = urlParams.get('fileType');
+            
+            const fileSizeInMB = (fileSizeInBytes / (1024 * 1024)).toFixed(2);
+            
+            const fileLink = document.getElementById('fileLink');
+            fileLink.href = `/uploads/${fileName}`;
+            
+            const copyLink = document.getElementById('copyLink');
+            
+            // Add a click event to the copy icon
+            copyLink.addEventListener('click', function() {
+                const tempInput = document.createElement('input');
+                tempInput.value = fileLink.href;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            });
+
+            document.getElementById('fileName').textContent = fileName;
+            document.getElementById('fileSize').textContent = fileSizeInMB + ' MB';
+            document.getElementById('fileType').textContent = fileType;
+        });
+    </script>
+</body>
+</html>

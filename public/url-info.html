@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Information</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .info-item {
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card">
+            <h1 class="text-center">URL Information</h1>
+            <div class="info-item">
+                <i class="fas fa-link"></i> <strong>Shortened URL:</strong>
+                <a id="shortenedURL" href="#" target="_blank"></a>
+                <i class="far fa-copy" id="copyShortenedURL" style="cursor: pointer; margin-left: 5px;"></i>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-external-link-alt"></i> <strong>Original URL:</strong>
+                <a id="originalURL" href="#" target="_blank"></a>
+                <i class="far fa-copy" id="copyOriginalURL" style="cursor: pointer; margin-left: 5px;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Made with ❤️ by david1117dev
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const shortenedURL = urlParams.get('shortenedURL');
+            const originalURL = urlParams.get('originalURL');
+
+            const shortenedURLLink = document.getElementById('shortenedURL');
+            shortenedURLLink.textContent = `http://localhost:3000${shortenedURL}`;
+            shortenedURLLink.href = `http://localhost:3000${shortenedURL}`;
+
+            const originalURLLink = document.getElementById('originalURL');
+            originalURLLink.textContent = originalURL;
+            originalURLLink.href = originalURL;
+
+            const copyShortenedURL = document.getElementById('copyShortenedURL');
+            const copyOriginalURL = document.getElementById('copyOriginalURL');
+
+            // Add a click event to the copy icon for the shortened URL
+            copyShortenedURL.addEventListener('click', function() {
+                const tempInput = document.createElement('input');
+                tempInput.value = `http://localhost:3000${shortenedURL}`;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            });
+
+            // Add a click event to the copy icon for the original URL
+            copyOriginalURL.addEventListener('click', function() {
+                const tempInput = document.createElement('input');
+                tempInput.value = originalURL;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            });
+        });
+    </script>
+</body>
+</html>

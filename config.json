@@ -1,0 +1,5 @@
+{
+  "title": "NextShare",
+  "port": "3000",
+  "uploadAllowedTypes": ["*"]
+}
